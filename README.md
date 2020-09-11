@@ -13,10 +13,11 @@ data %>%
   mutate(sex = fct_relevel(as.factor(sex), c("Male", "Female", "Unknown")))
 ```
 
-## 2. Regrouping/Binnning Data
+## 2. Regrouping/Binning Data
 I often have to use variables with many levels and condense a few groups into an "other" category or I need to regroup them entirely. 
 
 **Less than 3 Options**
+
 You can use the ifelse if you have 2 options
 * a good example of this is biological sex:
 ```
