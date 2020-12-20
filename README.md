@@ -5,7 +5,7 @@ In my work, I have to do a lot of data cleaning. Here are some problems with sol
 
 ## 1. Releveling + Changing Class
 
-This may seem really simple, but the fct_relevel function is something I've adopted as a standard before I go to model data. I try to use it inconjuction with other data prep to take down runtime. I have a few examples below. I like to do this before modeling so I know exactly which level of my variable will become my reference group later on. 
+This may seem really simple, but the ```fct_relevel``` function is something I've adopted as a standard before I go to model data. I try to use it in conjunction with other data prep to take down runtime. I have a few examples below. I like to do this before modeling so I know exactly which level of my variable will become my reference group later on. 
 
 Here is one simple example:
 ```
@@ -18,14 +18,14 @@ I often have to use variables with many levels and condense a few groups into an
 
 **Less than 3 Options**
 
-You can use the ifelse if you have 2 options
+You can use the ```if_else()``` if you have 2 options
 * a good example of this is biological sex:
 ```
 data %>% 
   mutate(gender = if_else(gender == "F", "Female", "Male")
 ```
 
-You have 3+ options you can use case_when
+You have 3+ options you can use ```case_when()```
 * a good example of this may be gender identity
 
 ```
@@ -37,16 +37,15 @@ data %>%
 ```
 
 **More than 3 Options**
-I don't like to type that much so when my categories exceed 3ish options, I move to use case_when with %in% if they are clean and grepl if they aren't clean. 
+I don't like to type that much so when my categories exceed 3ish options, I move to use ```case_when()``` with ```%in%``` if they are clean and ```grepl()``` if they aren't clean. 
 
 ```
 data %>% 
   mutate(gender = fct_relevel(case_when(gender %in% c("Female", "Male")~ as.character(gender), T ~ "Other")))
 ```
-I use fct_relevel because I'm usually preparing for an analysis. This also let's me later use the as.numeric(as.factor(gender)) transformation on my data if I need to conver the class and I will know exactly what my levels are. 
+I use ```fct_relevel()``` because I'm usually preparing for analysis. This also let's me later use the ```as.numeric(as.factor(gender))``` transformation on my data if I need to conver the class and I will know exactly what my levels are. 
 
-This is great and everything, but often my data isn't in nice categories because a lot of our data sources call for write-in data. In this case, I use grepl from library(grep).
-Here's an example when students were asked to write in their high school. This data originally had ~100 different _real_ observations, but with spelling errors it came out to much more than that:
+This is great and everything, but often my data isn't in nice categories because a lot of our data sources call for write-in data. In this case, I use ```grepl()``` from ```base()```. Here's an example when students were asked to write in their high school. This data originally had ~100 different _real_ observations, but with spelling errors it came out to much more than that:
 
 ```
 data %>% 
@@ -65,4 +64,4 @@ data %>%
                                          T ~ "Traditional"),
                                "Traditional"))
 ```
-I leveraged the %in% operator + grepl to re-group the different high school types. I had left the alternative group to show the how you can define a list as well. 
+I leveraged the ```%in%``` operator + ```grepl()``` to re-group the different high school types. I had left the alternative group to show the how you can define a list as well. 
